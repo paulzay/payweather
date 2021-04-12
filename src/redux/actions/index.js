@@ -12,3 +12,7 @@ export const getWeather = () => dispatch => {
         });
       });
   };
+
+  export const toggleTempScale = () => {
+    return { type: 'TOGGLE_TEMP_SCALE' };
+  };
