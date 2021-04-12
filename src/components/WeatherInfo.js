@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
-import { getWeather } from '../redux/actions/index';
+
+import { getWeather, toggleTempScale } from '../redux/actions/index';
 import Loading from './Loading';
+import { kelvinToCelsius, kelvinToFahrenheit } from './helpers';
 // materialui stuff
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -50,17 +52,51 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(6),
     },
   }));
-function WeatherInfo({weather, getWeather}){
+function WeatherInfo({weather, getWeather, tempScale, toggleTempScale}){
     const classes = useStyles;
 
     useEffect(() => {
         getWeather();
     }, [getWeather]);
 
-    const isFetchingWeather = weather.isLoading;
+    // const isFetchingWeather = weather.isLoading;
+    const celsiusFontWeight = tempScale === 'celsius' ? 'bolder' : 'normal';
+    const fahrenheitFontWeight = tempScale === 'fahrenheit' ? 'bolder' : 'normal';
+  
+    const onToggleTempScale = () => {
+      toggleTempScale();
+    };
+    const temperature = (temp) => {
+      return tempScale === 'celsius' ? kelvinToCelsius(temp) : kelvinToFahrenheit(temp);
+    };
 
-    if(!isFetchingWeather){
+
         return(
+          <>
+              <div className="align-center">
+                <label className="switch">
+                  <input
+                    onChange={onToggleTempScale}
+                    // checked={props.degreeFormat}
+                    type="checkbox"
+                  ></input>
+                  <span className="slider round align-center">
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "20px",
+                        color: "black",
+                        zIndex: 2,
+                        position: "relative",
+                        fontSize: "12px",
+                      }}
+                    >
+                      <span>C</span>
+                      <span>F</span>
+                    </div>
+                  </span>
+                </label>
+              </div>
             <div className={classes.heroContent}>
                 <Container className={classes.cardGrid} maxWidth="md">
                     <Grid container spacing={4}>
@@ -69,10 +105,16 @@ function WeatherInfo({weather, getWeather}){
                                 <Card className={classes.card}>
                                     <CardContent className={classes.cardContent}>
                                         <Typography gutterBottom variant="h5" component="h2">
-                                            Temp: <br/>{card.main.temp}&deg;K
+                                            Temp: <br/>{temperature(card.main.temp)}
                                         </Typography>
                                         <Typography>
                                             Date: <br/>{card.dt_txt}
+                                        </Typography>
+                                        <Typography>
+                                          <p>
+                                            Feels like: {card.main.feels_like} | {card.weather[0].description} |
+                                            Humidity: {card.main.humidity}%
+                                          </p>
                                         </Typography>
                                     </CardContent>
                                 </Card>
@@ -80,11 +122,10 @@ function WeatherInfo({weather, getWeather}){
                         ))}
                     </Grid>
                 </Container>
-            </div>     
+            </div> 
+          </>    
         )
-    }else{
-        return <Loading /> 
-    }
+    
 
 }
 
@@ -95,10 +136,12 @@ WeatherInfo.propTypes = {
 
 const mapStateToProps = state => ({
     weather: state.weather.weather,
+    tempScale: state.tempScale
 });
 
 const mapDispatchToProps = dispatch => ({
-    getWeather: () => dispatch(getWeather())
+    getWeather: () => dispatch(getWeather()),
+    toggleTempScale: () => dispatch(toggleTempScale())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeatherInfo);;
