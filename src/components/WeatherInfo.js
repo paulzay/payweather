@@ -112,7 +112,7 @@ function WeatherInfo({weather, getWeather, tempScale, toggleTempScale}){
                                         </Typography>
                                         <Typography>
                                           <p>
-                                            Feels like: {card.main.feels_like} | {card.weather[0].description} |
+                                            Feels like: {temperature(card.main.feels_like)} | {card.weather[0].description} |
                                             Humidity: {card.main.humidity}%
                                           </p>
                                         </Typography>
