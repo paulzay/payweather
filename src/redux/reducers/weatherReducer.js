@@ -1,25 +1,20 @@
 const initialState = {
     weather: [],
-    isLoading: false,
+    isLoading: true,
 }
 
 export default (state = initialState, action) => {
     switch(action.type){
-        case 'GET_DATA':
-            return{
-                ...state,
-                isLoading: true,
-            };
         case 'GET_DATA_SUCCESS':
             return{
                 ...state,
-                isLoading: true,
+                isLoading: false,
                 weather: action.weather,
             };
         case 'GET_DATA_FAILURE':
             return{
                 ...state,
-                isLoading: false,
+                isLoading: true,
                 weather: action.error,
             };
         default:
