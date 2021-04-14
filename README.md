@@ -13,7 +13,6 @@ The WeatherApp contains two screens:
 
 ## Built with
 
-- Node.js
 - React
 - React-DOM
 - React-Create-App
@@ -25,7 +24,7 @@ The WeatherApp contains two screens:
 - MaterialUI
 
 ## Screenshot
-
+- TBA
 
 ## Getting Started
 
