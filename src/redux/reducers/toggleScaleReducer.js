@@ -1,7 +1,7 @@
-export default (initialState = 'celsius', action) => {
+export default (initialState = 'fahrenheit', action) => {
     switch (action.type) {
       case 'TOGGLE_TEMP_SCALE':
-        return initialState === 'celsius' ? 'fahrenheit' : 'celsius';
+        return initialState === 'fahrenheit' ? 'celcius' : 'fahrenheit';
       default:
         return initialState;
     }
