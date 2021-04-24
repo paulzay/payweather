@@ -1,4 +1,8 @@
 import moment from 'moment';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure();
 
 export const kelvinToCelsius = (kelvin) => {
     return `${Math.round(kelvin - 273.15)}°C`;
@@ -45,4 +49,22 @@ export const dataConversion = (list) => {
   }
 
   return objOfUniqueDays;
+};
+
+export const successToast = message => {
+  toast.success(message, {
+    position: toast.POSITION.TOP_CENTER,
+    autoClose: 3000,
+    hideProgressBar: true,
+    pauseOnHover: true,
+  });
+};
+
+export const errorToast = message => {
+  toast.error(message, {
+    position: toast.POSITION.TOP_CENTER,
+    autoClose: 3000,
+    hideProgressBar: true,
+    pauseOnHover: true,
+  });
 };
